@@ -82,20 +82,31 @@
         // Remove an element from the container
         void MagicalContainer::removeElement(int element) { 
             int* myPointerElement = nullptr;
-                for(int* pointer : this->magicCon)
+            for(int* pointer : this->magicCon)
+            {
+                if (*pointer == element)
                 {
-                    if (*pointer == element)
-                    {
-                        myPointerElement = pointer;
-                    }
+                    myPointerElement = pointer;
                 }
-                if (myPointerElement == nullptr)
-                {
-                    throw std::runtime_error("Element not found in MagicalContainer");
-                    return;
-                }
-                auto iterator = std::find(magicCon.begin(), magicCon.end(), myPointerElement);
-                magicCon.erase(iterator);
+            }
+            if (myPointerElement == nullptr)
+            {
+                throw std::runtime_error("Element not found in MagicalContainer");
+                return;
+            }
+
+            auto iteratorCross = std::find(magicCon.begin(), magicCon.end(), myPointerElement);
+            magicCon.erase(iteratorCross);
+            auto iteratorAcsending = std::find(sortMagicCon.begin(), sortMagicCon.end(), myPointerElement);
+            sortMagicCon.erase(iteratorAcsending);
+            //check if element is prime , only if yes he is inside primeMagicCon .
+            if (isPrime(myPointerElement))
+            {
+                auto iteratorPrime = std::find(primeMagicCon.begin(), primeMagicCon.end(), myPointerElement);
+                primeMagicCon.erase(iteratorPrime);
+            }
+            
+            delete myPointerElement;
         }
 
 //~~AscendingIterator~~ :
